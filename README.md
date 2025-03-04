@@ -52,7 +52,7 @@ This tool is intended for **educational and ethical hacking purposes only**. Ens
 Contributions are welcome! Feel free to submit **issues** or **pull requests**.
 
 ## 📜 License
-This project is licensed under the **MIT License**.
+This project is licensed under the **GNU General Public License v3.0s **.
 
 ---
 🔗 **Connect with Me:** [LinkedIn](www.linkedin.com/in/rodrigo-marques-sa) 
