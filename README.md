@@ -1,5 +1,5 @@
-# Scr1ptFox
+# PiSentinel
 
-![Image](https://github.com/user-attachments/assets/e681576d-b476-4222-bed9-c8d6dff48b71)
+![Image](https://github.com/user-attachments/assets/c02941b4-52d0-43ca-bd12-3c14452eaa15)
 
 ---
