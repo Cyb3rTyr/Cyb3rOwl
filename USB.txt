@@ -1,0 +1,8 @@
+
+Requirement	Recommended Option
+
+Type of USB Drive	USB 3.0 / USB 3.1 Flash Drive or Portable SSD
+Capacity/Size	At least 8GB (16GB or more for larger projects)
+File System	exFAT (for cross-platform compatibility)
+Performance	Faster USB 3.0/3.1 for better performance
+Operating System Compatibility	Compatible with Windows, Linux, macOS (formatted in exFAT)
