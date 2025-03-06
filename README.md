@@ -69,4 +69,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-For inquiries or feedback, please contact me on <a href="https://www.linkedin.com/in/rodrigo-marques-sa-9589772bb/" target="_blank">LinkedIn</a>.
+For inquiries or feedback, please contact me on [LinkedIn](https://www.linkedin.com/in/rodrigo-marques-sa-9589772bb/).
