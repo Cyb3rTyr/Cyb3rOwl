@@ -62,22 +62,11 @@ Once the app is up and running, you'll see a sidebar with several options:
 
 Click on any section to navigate and see more information about that specific scan.
 
-## Customization
-
-You can customize the appearance of the app using the built-in CSS. Modify the `header`, `subheader`, `description`, and other components to fit your desired design.
-
-## Contributing
-
-Contributions are welcome! Feel free to fork this repository, create a pull request, and help improve CyberGuar.
 
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## Acknowledgements
-
-- This project is built using Streamlit: [Streamlit Documentation](https://streamlit.io/docs)
-
 ## Contact
 
-For inquiries or feedback, please contact [Your Name](mailto:your-email@example.com).
+For inquiries or feedback, please contact me on [LinkedIn](https://www.linkedin.com/in/rodrigo-marques-sa-9589772bb/).
