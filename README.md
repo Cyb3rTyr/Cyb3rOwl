@@ -1,6 +1,6 @@
 # Cyb3rOwl: Malware & Vulnerability Scanner
 
-![Image](https://github.com/user-attachments/assets/3ceb69ae-e70f-4e3e-8228-f1ceb0a4330f) 
+![Image](https://github.com/user-attachments/assets/3a61aa30-a5d0-40cc-9b4a-a6744aac350b)
 
 ---
 
