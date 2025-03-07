@@ -1,10 +1,10 @@
-# CyberGuar: Malware & Vulnerability Scanner
+# Cyb3rOwl: Malware & Vulnerability Scanner
 
-![Image](https://github.com/user-attachments/assets/9f427c19-96eb-48d7-8af5-59bdfabed9e1)
+![Image](https://github.com/user-attachments/assets/3ceb69ae-e70f-4e3e-8228-f1ceb0a4330f) 
 
 ---
 
-CyberGuar is a simple and interactive cybersecurity tool built with Streamlit. It helps scan your system for potential malware and vulnerabilities and provides basic system health checks.
+Cyb3rOwl is a simple and interactive cybersecurity tool built with Streamlit. It helps scan your system for potential malware and vulnerabilities and provides basic system health checks.
 
 ## Features
 
@@ -24,8 +24,8 @@ The `setup.py` script will automatically handle the installation of dependencies
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/CyberGuar.git
-    cd CyberGuar
+    git clone https://github.com/your-username/Cyb3rOwl.git
+    cd Cyb3rOwl
     ```
 
 2. Run the setup script:
@@ -61,7 +61,6 @@ Once the app is up and running, you'll see a sidebar with several options:
 - **System Health Check**: A placeholder for checking system health (future functionality).
 
 Click on any section to navigate and see more information about that specific scan.
-
 
 ## License
 
