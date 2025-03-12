@@ -1,26 +1,30 @@
 !include "MUI2.nsh"  # Include MUI for Modern UI
 
-# Define installer properties
+# ========================== Installer Properties ==========================
 Name "Cyb3rOwl"
 OutFile "Cyb3rOwlInstaller.exe"
 InstallDir "$PROGRAMFILES\Cyb3rOwl"
 
 # ========================== MUI Pages ==========================
-!insertmacro MUI_PAGE_WELCOME         # Welcome Page
-!insertmacro MUI_PAGE_LICENSE "LICENSE"  # License Page (displayed as a text string)
+!insertmacro MUI_PAGE_WELCOME                # Welcome Page
+!insertmacro MUI_PAGE_LICENSE "LICENSE"     # License Page
 Page Custom OSSelectionPage OSSelectionPageLeave  # OS Selection Page
-Page Custom InstallationInfoPage                # Info page showing what will be installed
-!insertmacro MUI_PAGE_DIRECTORY       # Directory Page
-!insertmacro MUI_PAGE_INSTFILES       # Installation Progress Page
-!insertmacro MUI_PAGE_FINISH          # Finish Page
+Page Custom InstallationInfoPage            # Info Page
+Page Custom ShortcutPage ShortcutPageLeave  # Shortcut selection page (checkbox)
+!insertmacro MUI_PAGE_DIRECTORY             # Directory Page
+!insertmacro MUI_PAGE_INSTFILES             # Installation Progress Page
+!insertmacro MUI_PAGE_FINISH                # Finish Page
 
-# Language
-!insertmacro MUI_LANGUAGE "English"  # English language
+# ========================== Language ==========================
+!insertmacro MUI_LANGUAGE "English"
 
 # ========================== Variables ==========================
 Var SelectedOS
+Var ShortcutCheckbox   # Variable to hold checkbox handle
 
 # ========================== Custom Pages ==========================
+
+# ---- OS Selection Page ----
 Function OSSelectionPage
     nsDialogs::Create 1018
     Pop $0
@@ -56,14 +60,30 @@ Function OSSelectionPageLeave
     ${EndIf}
 FunctionEnd
 
+# ---- Installation Info Page ----
 Function InstallationInfoPage
     nsDialogs::Create 1018
     Pop $0
 
-    ${NSD_CreateLabel} 0 0 100% 100% "The following items will be installed:\r\n\r\n- Cyb3rOwl main application\r\n- Dependencies required for the selected OS\r\n- Shortcuts to access the app\r\n\r\nClick Next to continue."
+    ${NSD_CreateLabel} 0 0 100% 100% "The following items will be installed:\r\n\r\n- Cyb3rOwl main application\r\n- Dependencies required for the selected OS\r\n- Optional desktop shortcut\r\n\r\nClick Next to continue."
     Pop $1
 
     nsDialogs::Show
+FunctionEnd
+
+# ---- Shortcut Selection Page ----
+Function ShortcutPage
+    nsDialogs::Create 1018
+    Pop $0
+
+    ${NSD_CreateCheckbox} 0 0 100% 12u "Create Desktop Shortcut"
+    Pop $ShortcutCheckbox
+
+    nsDialogs::Show
+FunctionEnd
+
+Function ShortcutPageLeave
+    ${NSD_GetState} $ShortcutCheckbox $R3  # $R3 = 1 if checked, 0 if not
 FunctionEnd
 
 # ========================== Installer Section ==========================
@@ -71,23 +91,25 @@ Section "Install"
     # Set installation path
     SetOutPath $INSTDIR
 
-    # Ensure that the Exec command runs correctly by quoting the full command
+    # Clone repository
     ExecWait '"$INSTDIR\git.exe" clone "https://github.com/Cyb3rTyr/Cyb3rOwl.git" "$INSTDIR\Cyb3rOwl"'
 
-    # Downloading ... file silently (no progress bar shown)
+    # Download LICENSE file
     NSISdl::download_quiet "https://raw.githubusercontent.com/Cyb3rTyr/Cyb3rOwl/main/LICENSE" "$INSTDIR\LICENSE"
 
-    # Copy the icon (relative path in project)
+    # Copy application icon
     File "assets\Cyb3rOwl_icon.ico"
 
     # Create Start Menu shortcut
     CreateDirectory "$SMPROGRAMS\Cyb3rOwl"
     CreateShortcut "$SMPROGRAMS\Cyb3rOwl\Cyb3rOwl.lnk" "$INSTDIR\Cyb3rOwl\main.exe" "" "$INSTDIR\Cyb3rOwl_icon.ico"
 
-    # Create Desktop shortcut
-    CreateShortcut "$DESKTOP\Cyb3rOwl.lnk" "$INSTDIR\Cyb3rOwl\main.exe" "" "$INSTDIR\Cyb3rOwl_icon.ico"
+    # Conditionally create Desktop shortcut based on checkbox
+    ${If} $R3 == 1
+        CreateShortcut "$DESKTOP\Cyb3rOwl.lnk" "$INSTDIR\Cyb3rOwl\main.exe" "" "$INSTDIR\Cyb3rOwl_icon.ico"
+    ${EndIf}
 
-    # OS-specific message (just an example of handling choice)
+    # OS-specific handling (just messages here)
     ${If} $SelectedOS == "Windows"
         DetailPrint "Installing Windows-specific dependencies..."
     ${ElseIf} $SelectedOS == "Linux"
@@ -96,7 +118,7 @@ Section "Install"
         DetailPrint "Installing macOS-specific dependencies..."
     ${EndIf}
 
-    # Write Uninstaller
+    # Write uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"
 SectionEnd
 
