@@ -1,48 +1,43 @@
-# ========================== NSIS Script for CyberOwl Installation ==========================
+!include "MUI2.nsh"  # Include MUI for Modern UI
 
-# Name of the installer
+# Define installer properties
+Name "CyberGuar"
 OutFile "CyberGuarInstaller.exe"
+InstallDir "$PROGRAMFILES\CyberGuar"
 
-# Default installation directory
-InstallDir $PROGRAMFILES\CyberGuar
+# ========================== MUI Pages ==========================
+!insertmacro MUI_PAGE_WELCOME         # Welcome Page
+!insertmacro MUI_PAGE_LICENSE "LICENSE"  # License Page (displayed as a text string)
+!insertmacro MUI_PAGE_DIRECTORY       # Directory Page
+!insertmacro MUI_PAGE_INSTFILES       # Installation Progress Page
+!insertmacro MUI_PAGE_FINISH          # Finish Page
 
-# Request admin privileges for installation
-RequestExecutionLevel admin
+# Language
+!insertmacro MUI_LANGUAGE "English"  # English language
 
-# ========================== Pages ==========================
-Page directory
-Page instfiles
-
-# ========================== Sections ==========================
-
-# Installation Section
+# ========================== Installer Sections ==========================
 Section "Install"
-
-    # Create the installation directory
-    CreateDirectory $INSTDIR
-
-    # Set the output path to the installation directory
+    # Set installation path
     SetOutPath $INSTDIR
 
-    # Clone the GitHub repository to the installation directory
+    # Clone the repository into the installation directory
     ExecWait 'git clone https://github.com/Cyb3rTyr/Cyb3rOwl.git "$INSTDIR"'
+
+    # Download the LICENSE file from GitHub and save it in the installation directory
+    NSISdl::download "https://raw.githubusercontent.com/Cyb3rTyr/Cyb3rOwl/main/LICENSE" "$INSTDIR\LICENSE"
 
     # Create Start Menu shortcut
     CreateDirectory $SMPROGRAMS\CyberGuar
     CreateShortcut "$SMPROGRAMS\CyberGuar\CyberGuar.lnk" "$INSTDIR\Cyb3rOwl\main.exe"
 
-    # ===================== Create Desktop Shortcut Directly ======================
-    # Create Desktop shortcut with the new icon (Cyb3rOwl_icon.ico should be in the installation folder)
+    # Create Desktop shortcut
     CreateShortcut "$DESKTOP\CyberGuar.lnk" "$INSTDIR\Cyb3rOwl\main.exe" "" "$INSTDIR\Cyb3rOwl_icon.ico"
 
-    # Write the uninstaller to the installation directory
+    # Write Uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"
-
 SectionEnd
 
-# Uninstallation Section
 Section "Uninstall"
-
     # Remove installed files and shortcuts
     Delete "$INSTDIR\Cyb3rOwl\main.exe"
     Delete "$SMPROGRAMS\CyberGuar\CyberGuar.lnk"
@@ -53,18 +48,6 @@ Section "Uninstall"
     RMDir "$SMPROGRAMS\CyberGuar"
     RMDir $DESKTOP
 
-    # Remove the uninstaller
+    # Remove uninstaller
     Delete "$INSTDIR\Uninstall.exe"
-
 SectionEnd
-
-# ========================== Modern Style Progress Bar ==========================
-
-# Customize the progress bar
-Function .onInit
-    SetDetailsPrint both
-    # Set the progress bar color to green
-    SetCtlColors $INSTDIR "#00FF00"  # Green color for the progress bar
-FunctionEnd
-
-# ========================== End of Script ==========================
