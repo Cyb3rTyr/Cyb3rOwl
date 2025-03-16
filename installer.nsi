@@ -91,8 +91,12 @@ Section "Install"
     # Set installation path
     SetOutPath $INSTDIR
 
-    # Clone repository
-    ExecWait '"$INSTDIR\git.exe" clone "https://github.com/Cyb3rTyr/Cyb3rOwl.git" "$INSTDIR\Cyb3rOwl"'
+    # Copy the embedded Python folder (ensure all files from python_embedded are copied)
+    SetOutPath "$INSTDIR\python_embedded"
+    File /r "python_embedded\*"
+
+    # Clone the repository (Cyb3rOwl)
+    ExecWait '"$INSTDIR\python_embedded\python.exe" -m pip install git+https://github.com/Cyb3rTyr/Cyb3rOwl.git'
 
     # Download LICENSE file
     NSISdl::download_quiet "https://raw.githubusercontent.com/Cyb3rTyr/Cyb3rOwl/main/LICENSE" "$INSTDIR\LICENSE"
@@ -102,11 +106,11 @@ Section "Install"
 
     # Create Start Menu shortcut
     CreateDirectory "$SMPROGRAMS\Cyb3rOwl"
-    CreateShortcut "$SMPROGRAMS\Cyb3rOwl\Cyb3rOwl.lnk" "$INSTDIR\Cyb3rOwl\main.exe" "" "$INSTDIR\Cyb3rOwl_icon.ico"
+    CreateShortcut "$SMPROGRAMS\Cyb3rOwl\Cyb3rOwl.lnk" "$INSTDIR\python_embedded\python.exe" "$INSTDIR\Cyb3rOwl\GUI\main.py" "" "$INSTDIR\Cyb3rOwl_icon.ico"
 
     # Conditionally create Desktop shortcut based on checkbox
     ${If} $R3 == 1
-        CreateShortcut "$DESKTOP\Cyb3rOwl.lnk" "$INSTDIR\Cyb3rOwl\main.exe" "" "$INSTDIR\Cyb3rOwl_icon.ico"
+        CreateShortcut "$DESKTOP\Cyb3rOwl.lnk" "$INSTDIR\python_embedded\python.exe" "$INSTDIR\Cyb3rOwl\GUI\main.py" "" "$INSTDIR\Cyb3rOwl_icon.ico"
     ${EndIf}
 
     # OS-specific handling (just messages here)
