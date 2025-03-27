@@ -2,51 +2,105 @@
 
 ![Image](https://github.com/user-attachments/assets/3a61aa30-a5d0-40cc-9b4a-a6744aac350b)
 
----
-
 # 🔥 Ultimate Security Toolkit
 
-Welcome to the **Ultimate Security Toolkit**, a comprehensive solution for system security, privacy, and recovery. This project consists of two major components:
+The **Ultimate Security Toolkit** is a **powerful all-in-one security solution** designed for both **real-time system protection** and **offline recovery & forensics**. 
 
-- **[The App (Main System)](#app-main-system)**
-- **[The ISO (Bootable Environment)](#iso-bootable-environment)**
+This project is divided into two main components:
 
-Each tool serves a unique purpose—while the **App** is designed for day-to-day security and maintenance, the **ISO** provides powerful offline recovery and forensic tools.
+- **[🛡️ The App (Main System)](#-the-app-main-system)**
+  - A lightweight security tool for **daily protection, cleanup, and password management**.
+- **[💾 The ISO (Bootable Environment)](#-the-iso-bootable-environment)**
+  - A **standalone, bootable** security toolkit for **advanced malware removal, data recovery, OS repair, and forensic analysis**.
+
+Both tools work **independently or together** to ensure **maximum security and system recovery capabilities**.
 
 ---
 
-## 🚀 Features Overview
+## 🔍 Features Overview
 
-| Feature/Tool                      | App (Main System)                           | ISO (Bootable Environment)                      |
-|-----------------------------------|--------------------------------------------|-----------------------------------------------|
-| **Basic Malware Scan**            | ✓ Light malware scanner                    | ✓ Full malware scanner with deeper system access |
-| **System Cleanup**                | ✓ Temporary file cleanup, registry cleaning | ✓ Includes full system cleanup tools (beyond OS limitations) |
-| **Password Management**           | ✓ Store and manage passwords               | ✓ Password reset & recovery tools            |
-| **Encryption (File/Folder)**      | ✓ Simple file encryption                   | ✓ Full disk encryption support               |
-| **Privacy Tools**                 | ✓ Privacy cleaning (browsing history, cookies) | ✓ Secure browsing and privacy enhancements |
-| **Network Protection**            | ✓ Basic firewall / VPN options             | ✓ Advanced network security tools (Wireshark, Nmap) |
-| **Backup and Restore**            | ✓ Basic data backup                        | ✓ Full system backup & recovery tools       |
-| **File Recovery**                 | ✘                                          | ✓ Advanced data recovery (TestDisk, PhotoRec) |
-| **OS Repair/Recovery**            | ✘                                          | ✓ OS boot repair (fix bootloaders, restores) |
-| **Password Reset (OS Level)**     | ✘                                          | ✓ Windows & Linux password reset tools |
-| **Malware Removal (Advanced)**    | ✘                                          | ✓ Advanced malware removal (offline scanners) |
-| **Disk Partition Management**     | ✘                                          | ✓ Disk management & file system repair (GParted) |
-| **Advanced Security Tools**       | ✘                                          | ✓ Penetration testing tools (Metasploit, Nmap) |
-| **System Logs and Analysis**      | ✘                                          | ✓ System logs & forensic tools |
-| **File System Access (External)** | ✘                                          | ✓ Full disk access even on broken systems |
-| **User Interface**                | ✓ Graphical UI                             | ✓ Minimal UI for quick tool access |
-| **Standalone Operation**          | ✘                                          | ✓ Runs independently without an OS |
+| **Feature**                        | **App (Main System)**                      | **ISO (Bootable Environment)**                                                 |
+|------------------------------------|--------------------------------------------|-------------------------------------------------------------------------------|
+| **🦠 Basic Malware Scan**           | ✅ Light malware scanner                    | ✅ Full malware scanner with deeper system access                              |
+| **🧹 System Cleanup**               | ✅ Temporary file cleanup, registry cleaning | ✅ Advanced system cleanup tools (beyond OS limitations)                        |
+| **🔑 Password Management**          | ✅ Store and manage passwords               | ✅ Password reset & recovery tools                                            |
+| **🔒 Encryption (File/Folder)**      | ✅ Simple file encryption                   | ✅ Full disk encryption support                                               |
+| **🕵️ Privacy Tools**                | ✅ Browser history & cookie cleaning        | ✅ Secure browsing, privacy enhancements                                      |
+| **🌐 Network Protection**           | ✅ Basic firewall / VPN options             | ✅ Advanced security tools (Wireshark, Nmap, etc.)                             |
+| **💾 Backup and Restore**           | ✅ Basic data backup                        | ✅ Full system backup & recovery                                              |
+| **📂 File Recovery**                | ❌                                          | ✅ Advanced data recovery tools (TestDisk, PhotoRec)                          |
+| **🛠 OS Repair & Recovery**         | ❌                                          | ✅ Boot repair (fix bootloaders, restores)                                    |
+| **🔓 Password Reset (OS Level)**    | ❌                                          | ✅ Windows & Linux password reset tools                                       |
+| **🛡️ Advanced Malware Removal**     | ❌                                          | ✅ Offline malware removal (deep scans)                                       |
+| **🛠 Disk Partition Management**    | ❌                                          | ✅ Disk management & file system repair (GParted)                             |
+| **🕵️ Advanced Security Tools**      | ❌                                          | ✅ Penetration testing tools (Metasploit, Nmap)                               |
+| **📊 System Logs & Analysis**       | ❌                                          | ✅ View system logs & forensic tools                                          |
+| **📂 External File System Access**  | ❌                                          | ✅ Full disk access, even on unbootable systems                               |
+| **🖥️ User Interface**               | ✅ Graphical UI                             | ✅ Minimal UI for quick tool access                                           |
+| **🛠 Standalone Operation**         | ❌                                          | ✅ Runs without an installed OS                                               |
+
+---
+
+## 📂 Project Components
+
+### 🛡️ **The App (Main System)**
+🔗 **Repository:** [App Repository](https://github.com/YourUsername/App-Repository)  
+📖 **Description:**  
+A **lightweight** security application that runs **within the OS** and provides essential protection, cleaning, and encryption features. It’s ideal for everyday use to **keep your system secure and optimized**.
+
+🔹 **Key Features:**
+- 🦠 **Malware Scanner** – Detect and remove threats in real-time.
+- 🧹 **System Cleaner** – Remove junk files and optimize your PC.
+- 🔑 **Password Manager** – Securely store and manage your credentials.
+- 🔒 **File Encryption** – Protect sensitive data with encryption.
+- 🌐 **Network Security** – Basic firewall and VPN support.
+
+---
+
+### 💾 **The ISO (Bootable Environment)**
+🔗 **Repository:** [ISO Repository](https://github.com/YourUsername/ISO-Repository)  
+📖 **Description:**  
+A **bootable security environment** designed for **offline malware removal, OS repair, and forensic analysis**. It runs independently of the installed OS, making it **perfect for system recovery**.
+
+🔹 **Key Features:**
+- 🛠 **Advanced Malware Removal** – Deep scan & remove infections.
+- 💾 **File Recovery** – Restore lost/deleted files.
+- 🔓 **Password Reset** – Reset Windows/Linux passwords.
+- 🔧 **Disk Partitioning & Repair** – Fix disk issues with GParted.
+- 🔍 **Forensic Tools** – Analyze logs and investigate system activity.
+
+---
+
+## 🚀 Installation & Usage
+
+### 🔹 **For the App**
+1. **Download** the latest version from [Releases](#).
+2. Run the installer and follow the setup instructions.
+3. Open the app and navigate through the **user-friendly interface**.
+
+### 🔹 **For the Bootable ISO**
+1. **Download the ISO** from [Releases](#).
+2. Burn it to a USB drive using:
+   - [Rufus](https://rufus.ie) (Windows)
+   - [balenaEtcher](https://www.balena.io/etcher/) (Mac/Linux)
+3. **Boot your system** from the USB and access the toolkit.
+
+---
+
+## 📜 License
+This project is open-source and licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📬 Contact & Support
+📧 **Email:** support@example.com  
+💬 **Discord Community:** [Join Here](#)
+
+---
 
 ### 🔗 Related Repositories:
-- **[App Repository](https://github.com/Cyb3rTyr/Cyb3rOwl/blob/main/Cyb3rOwl_client/README.md)**   
-- **[ISO Repository](https://github.com/Cyb3rTyr/Cyb3rOwl/blob/main/Cyb3rOwl_entreprise/README.md)**
-
----
-
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+- 🛡️ **[App Repository](https://github.com/YourUsername/App-Repository)**
+- 💾 **[ISO Repository](https://github.com/YourUsername/ISO-Repository)**
 
 ## Contact
 
