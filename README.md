@@ -4,63 +4,45 @@
 
 ---
 
-Cyb3rOwl is a simple and interactive cybersecurity tool built with Streamlit. It helps scan your system for potential malware and vulnerabilities and provides basic system health checks.
+# 🔥 Ultimate Security Toolkit
 
-## Features
+Welcome to the **Ultimate Security Toolkit**, a comprehensive solution for system security, privacy, and recovery. This project consists of two major components:
 
-- **Malware Scan**: Detects potential malware on your system.
-- **Vulnerability Scan**: Identifies known vulnerabilities in your system.
-- **System Health Check**: Evaluates the general health of your system and provides feedback.
+- **[The App (Main System)](#app-main-system)**
+- **[The ISO (Bootable Environment)](#iso-bootable-environment)**
 
-## Requirements
+Each tool serves a unique purpose—while the **App** is designed for day-to-day security and maintenance, the **ISO** provides powerful offline recovery and forensic tools.
 
-To run this project, ensure you have Python 3.7 or higher installed.
+---
 
-## Setup
+## 🚀 Features Overview
 
-The `setup.py` script will automatically handle the installation of dependencies and setup for the project. This will make the process seamless and straightforward for the user.
+| Feature/Tool                      | App (Main System)                           | ISO (Bootable Environment)                      |
+|-----------------------------------|--------------------------------------------|-----------------------------------------------|
+| **Basic Malware Scan**            | ✓ Light malware scanner                    | ✓ Full malware scanner with deeper system access |
+| **System Cleanup**                | ✓ Temporary file cleanup, registry cleaning | ✓ Includes full system cleanup tools (beyond OS limitations) |
+| **Password Management**           | ✓ Store and manage passwords               | ✓ Password reset & recovery tools            |
+| **Encryption (File/Folder)**      | ✓ Simple file encryption                   | ✓ Full disk encryption support               |
+| **Privacy Tools**                 | ✓ Privacy cleaning (browsing history, cookies) | ✓ Secure browsing and privacy enhancements |
+| **Network Protection**            | ✓ Basic firewall / VPN options             | ✓ Advanced network security tools (Wireshark, Nmap) |
+| **Backup and Restore**            | ✓ Basic data backup                        | ✓ Full system backup & recovery tools       |
+| **File Recovery**                 | ✘                                          | ✓ Advanced data recovery (TestDisk, PhotoRec) |
+| **OS Repair/Recovery**            | ✘                                          | ✓ OS boot repair (fix bootloaders, restores) |
+| **Password Reset (OS Level)**     | ✘                                          | ✓ Windows & Linux password reset tools |
+| **Malware Removal (Advanced)**    | ✘                                          | ✓ Advanced malware removal (offline scanners) |
+| **Disk Partition Management**     | ✘                                          | ✓ Disk management & file system repair (GParted) |
+| **Advanced Security Tools**       | ✘                                          | ✓ Penetration testing tools (Metasploit, Nmap) |
+| **System Logs and Analysis**      | ✘                                          | ✓ System logs & forensic tools |
+| **File System Access (External)** | ✘                                          | ✓ Full disk access even on broken systems |
+| **User Interface**                | ✓ Graphical UI                             | ✓ Minimal UI for quick tool access |
+| **Standalone Operation**          | ✘                                          | ✓ Runs independently without an OS |
 
-### To install and run the app automatically:
+### 🔗 Related Repositories:
+- **[App Repository](#)** – [Click Here](#)  
+- **[ISO Repository](#)** – [Click Here](#)
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/your-username/Cyb3rOwl.git
-    cd Cyb3rOwl
-    ```
+---
 
-2. Run the setup script:
-    ```bash
-    python setup.py install
-    ```
-
-   This will:
-   - Install necessary dependencies from `requirements.txt`.
-   - Set up the environment to run the Streamlit app.
-
-3. Once the setup is complete, run the Streamlit app with:
-    ```bash
-    streamlit run app.py
-    ```
-
-4. Open the browser to view the application (Streamlit will display the URL in the terminal).
-
-## What will be installed
-
-The `setup.py` script will automatically install the following dependencies:
-
-- **Streamlit**: A library used for building the interactive web app interface.
-- **Other Dependencies**: Any other dependencies defined in `requirements.txt` (if additional libraries are required for your project).
-
-## Usage
-
-Once the app is up and running, you'll see a sidebar with several options:
-
-- **Home**: Overview of the tool.
-- **Malware Scan**: A placeholder to initiate a malware scan (future functionality).
-- **Vulnerability Scan**: A placeholder for scanning system vulnerabilities (future functionality).
-- **System Health Check**: A placeholder for checking system health (future functionality).
-
-Click on any section to navigate and see more information about that specific scan.
 
 ## License
 
