@@ -93,8 +93,7 @@ This project is open-source and licensed under the **MIT License**. See the [LIC
 ---
 
 ## 📬 Contact & Support
-📧 **Email:** support@example.com  
-💬 **Discord Community:** [Join Here](#)
+💬 **Discord Community:** [Join Here](https://discord.gg/RHaFkNyV)
 
 ---
 
