@@ -98,7 +98,7 @@ This project is open-source and licensed under the **MIT License**. See the [LIC
 ---
 
 ### 🔗 Related Repositories:
-- 🛡️ **[App Repository](https://github.com/Cyb3rTyr/Cyb3rOwl/blob/main/Cyb3rOwl_client/README.md)**
+- 🛡️ **[App Repository](Cyb3rOwl_client/README.md)**
 - 💾 **[ISO Repository](Cyb3rOwl_entreprise/README.md)**
 
 ## Contact
