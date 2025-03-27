@@ -38,8 +38,8 @@ Each tool serves a unique purpose—while the **App** is designed for day-to-day
 | **Standalone Operation**          | ✘                                          | ✓ Runs independently without an OS |
 
 ### 🔗 Related Repositories:
-- **[App Repository](#)** – [Click Here](#)  
-- **[ISO Repository](#)** – [Click Here](#)
+- **[App Repository](Cyb3rOwl_client\README.md)**   
+- **[ISO Repository](Cyb3rOwl_entreprise\README.md)**
 
 ---
 
