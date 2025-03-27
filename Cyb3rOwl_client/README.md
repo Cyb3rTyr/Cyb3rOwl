@@ -15,6 +15,3 @@ The **Ultimate Security Toolkit App** is a powerful desktop application designed
 1. **Download** the latest version from [Releases](#).
 2. Run the installer and follow the setup instructions.
 3. Open the app and navigate through the user-friendly interface.
-
-## 🔗 Related Project:
-For advanced offline security and recovery tools, check out our **[ISO Bootable Environment](#).**

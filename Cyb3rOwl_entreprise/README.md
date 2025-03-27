@@ -15,6 +15,3 @@ The **Ultimate Security Toolkit ISO** is a bootable security and recovery enviro
 1. **Download the ISO** from [Releases](#).
 2. Burn it to a USB drive using tools like [Rufus](https://rufus.ie) or [balenaEtcher](https://www.balena.io/etcher/).
 3. Boot your system from the USB and access the toolkit.
-
-## 🔗 Related Project:
-For daily security management, check out our **[Main System App](#).**
