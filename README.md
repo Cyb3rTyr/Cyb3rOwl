@@ -44,7 +44,7 @@ Both tools work **independently or together** to ensure **maximum security and s
 ## 📂 Project Components
 
 ### 🛡️ **The App (Main System)**
-🔗 **Repository:** [App Repository](https://github.com/YourUsername/App-Repository)  
+🔗 **Repository:** [App Repository](https://github.com/Cyb3rTyr/Cyb3rOwl/tree/main/Cyb3rOwl_client)  
 📖 **Description:**  
 A **lightweight** security application that runs **within the OS** and provides essential protection, cleaning, and encryption features. It’s ideal for everyday use to **keep your system secure and optimized**.
 
@@ -58,7 +58,7 @@ A **lightweight** security application that runs **within the OS** and provides 
 ---
 
 ### 💾 **The ISO (Bootable Environment)**
-🔗 **Repository:** [ISO Repository](https://github.com/YourUsername/ISO-Repository)  
+🔗 **Repository:** [ISO Repository](https://github.com/Cyb3rTyr/Cyb3rOwl/tree/main/Cyb3rOwl_entreprise)  
 📖 **Description:**  
 A **bootable security environment** designed for **offline malware removal, OS repair, and forensic analysis**. It runs independently of the installed OS, making it **perfect for system recovery**.
 
@@ -98,9 +98,8 @@ This project is open-source and licensed under the **MIT License**. See the [LIC
 ---
 
 ### 🔗 Related Repositories:
-- 🛡️ **[App Repository](https://github.com/YourUsername/App-Repository)**
-- 💾 **[ISO Repository](https://github.com/YourUsername/ISO-Repository)**
+- 🛡️ **[App Repository](https://github.com/Cyb3rTyr/Cyb3rOwl/blob/main/Cyb3rOwl_client/README.md)**
+- 💾 **[ISO Repository](hhttps://github.com/Cyb3rTyr/Cyb3rOwl/blob/main/Cyb3rOwl_entreprise/README.md)**
 
 ## Contact
-
 For inquiries or feedback, please contact me on [LinkedIn](https://www.linkedin.com/in/rodrigo-marques-sa-9589772bb/).
