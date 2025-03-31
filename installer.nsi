@@ -106,11 +106,11 @@ Section "Install"
 
     # Create Start Menu shortcut
     CreateDirectory "$SMPROGRAMS\Cyb3rOwl"
-    CreateShortcut "$SMPROGRAMS\Cyb3rOwl\Cyb3rOwl.lnk" "$INSTDIR\python_embedded\python.exe" "$INSTDIR\Cyb3rOwl\GUI\main.py" "" "$INSTDIR\Cyb3rOwl_icon.ico"
+    CreateShortcut "$SMPROGRAMS\Cyb3rOwl\Cyb3rOwl.lnk" '"$INSTDIR\python_embedded\python.exe"' '"$INSTDIR\Cyb3rOwl_client\GUI\main.py"' "$INSTDIR\Cyb3rOwl_icon.ico"
 
     # Conditionally create Desktop shortcut based on checkbox
     ${If} $R3 == 1
-        CreateShortcut "$DESKTOP\Cyb3rOwl.lnk" "$INSTDIR\python_embedded\python.exe" "$INSTDIR\Cyb3rOwl\GUI\main.py" "" "$INSTDIR\Cyb3rOwl_icon.ico"
+        CreateShortcut "$DESKTOP\Cyb3rOwl.lnk" '"$INSTDIR\python_embedded\python.exe"' '"$INSTDIR\Cyb3rOwl_client\GUI\main.py"' "$INSTDIR\Cyb3rOwl_icon.ico"
     ${EndIf}
 
     # OS-specific handling (just messages here)
