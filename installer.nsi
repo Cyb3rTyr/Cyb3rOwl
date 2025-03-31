@@ -7,11 +7,11 @@ InstallDir "$PROGRAMFILES\Cyb3rOwl"
 BrandingText "Cyb3rOwl v1.6 - by Cyb3rTyr"
 
 # ========================== MUI Pages ==========================
-!define MUI_ICON "assests\Cyb3rOwl_icon.ico"          # Installer icon
-!define MUI_UNICON "assests\Cyb3rOwl_icon.ico"        # Uninstaller icon
+!define MUI_ICON "assets\Cyb3rOwl_icon.ico"          # Installer icon
+!define MUI_UNICON "assets\Cyb3rOwl_icon.ico"        # Uninstaller icon
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "assests\header.bmp"      # Path to the banner image for the welcome page
-!define MUI_WELCOMEFINISHPAGE_BITMAP "assests\shield.bmp"
+!define MUI_HEADERIMAGE_BITMAP "assets\header.bmp"      # Path to the banner image for the welcome page
+!define MUI_WELCOMEFINISHPAGE_BITMAP "assets\shield.bmp"
 
 !insertmacro MUI_PAGE_WELCOME                # Welcome Page
 !insertmacro MUI_PAGE_LICENSE "LICENSE"      # License Page
@@ -49,17 +49,19 @@ Section "Install"
     # Set installation path
     SetOutPath $INSTDIR
 
-    # Copy Cyb3rOwl.exe, icon, and banner
+    # Copy Cyb3rOwl.exe, icon, and shield.bmp from assets folder
     File "Cyb3rOwl.exe"
+    File "assets\Cyb3rOwl_icon.ico"
+    File "assets\shield.bmp"  # Replaced banner_owl.png with shield.bmp
 
     # Create the Desktop shortcut if checkbox is checked
     ${If} $R0 == 1
-        CreateShortcut "$DESKTOP\Cyb3rOwl.lnk" "$INSTDIR\Cyb3rOwl.exe" "" "$INSTDIR\assests\Cyb3rOwl_icon.ico"
+        CreateShortcut "$DESKTOP\Cyb3rOwl.lnk" "$INSTDIR\Cyb3rOwl.exe" "" "$INSTDIR\Cyb3rOwl_icon.ico"
     ${EndIf}
 
     # Create the Start Menu shortcut
     CreateDirectory "$SMPROGRAMS\Cyb3rOwl"
-    CreateShortcut "$SMPROGRAMS\Cyb3rOwl\Cyb3rOwl.lnk" "$INSTDIR\Cyb3rOwl.exe" "" "$INSTDIR\assests\Cyb3rOwl_icon.ico"
+    CreateShortcut "$SMPROGRAMS\Cyb3rOwl\Cyb3rOwl.lnk" "$INSTDIR\Cyb3rOwl.exe" "" "$INSTDIR\Cyb3rOwl_icon.ico"
 
     # Write uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"
