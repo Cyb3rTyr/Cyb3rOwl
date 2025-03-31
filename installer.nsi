@@ -2,16 +2,16 @@
 
 # ========================== Installer Properties ==========================
 Name "Cyb3rOwl"
-OutFile "Cyb3rOwl_Installer.exe"
+OutFile "Cyb3rOwlInstaller.exe"
 InstallDir "$PROGRAMFILES\Cyb3rOwl"
 BrandingText "Cyb3rOwl v1.6 - by Cyb3rTyr"
 
 # ========================== MUI Pages ==========================
-!define MUI_ICON "assets\Cyb3rOwl_icon.ico"          # Installer icon
-!define MUI_UNICON "assets\Cyb3rOwl_icon.ico"        # Uninstaller icon
+!define MUI_ICON "Cyb3rOwl_icon.ico"          # Installer icon
+!define MUI_UNICON "Cyb3rOwl_icon.ico"        # Uninstaller icon
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "assets\header.bmp"      # Path to the banner image for the welcome page
-!define MUI_WELCOMEFINISHPAGE_BITMAP "assets\shield.bmp"
+!define MUI_HEADERIMAGE_BITMAP "header.bmp"      # Path to the banner image for the welcome page
+!define MUI_WELCOMEFINISHPAGE_BITMAP "shield.bmp"
 
 !insertmacro MUI_PAGE_WELCOME                # Welcome Page
 !insertmacro MUI_PAGE_LICENSE "LICENSE"      # License Page
@@ -49,10 +49,10 @@ Section "Install"
     # Set installation path
     SetOutPath $INSTDIR
 
-    # Copy Cyb3rOwl.exe, icon, and shield.bmp from assets folder
+    # Copy Cyb3rOwl.exe, icon, and banner
     File "Cyb3rOwl.exe"
-    File "assets\Cyb3rOwl_icon.ico"
-    File "assets\shield.bmp"  # Replaced banner_owl.png with shield.bmp
+    File "Cyb3rOwl_icon.ico"
+    File "shield.bmp"  # Ensure banner_owl.png is in the same directory as this script or provide correct path
 
     # Create the Desktop shortcut if checkbox is checked
     ${If} $R0 == 1
