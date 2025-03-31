@@ -2,7 +2,7 @@
 
 # ========================== Installer Properties ==========================
 Name "Cyb3rOwl"
-OutFile "Cyb3rOwlInstaller.exe"
+OutFile "Cyb3rOwl_Installer.exe"
 InstallDir "$PROGRAMFILES\Cyb3rOwl"
 BrandingText "Cyb3rOwl v1.6 - by Cyb3rTyr"
 
