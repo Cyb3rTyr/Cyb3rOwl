@@ -29,6 +29,11 @@ class MainWindow(QMainWindow):
         self.setStyleSheet(self.app_style())
         main_layout = QHBoxLayout()
 
+        # Create a terminal-like border frame for the window content
+        border_frame = QFrame(self)
+        border_frame.setStyleSheet("border: 5px solid #1c1c1c; border-radius: 15px;")
+        border_layout = QHBoxLayout(border_frame)
+
         # Sidebar
         self.sidebar = QWidget()
         self.sidebar_layout = QVBoxLayout()
@@ -100,8 +105,13 @@ class MainWindow(QMainWindow):
         content_layout.addWidget(separator)
 
         content_layout.addWidget(self.stack, 4)
+
+        # Add border_frame around the layout
+        border_layout.addLayout(content_layout)
+        border_frame.setLayout(border_layout)
+
         container = QWidget()
-        container.setLayout(content_layout)
+        container.setLayout(border_layout)
         self.setCentralWidget(container)
         self.navigate("Home")
 
