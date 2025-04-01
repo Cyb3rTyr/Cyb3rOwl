@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -11,9 +12,10 @@ from PySide6.QtWidgets import (
     QScrollArea,
     QFrame,
     QSizePolicy,
+    QTextEdit,
 )
 from PySide6.QtGui import QPixmap, QFont
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QProcess
 
 
 class MainWindow(QMainWindow):
@@ -54,6 +56,7 @@ class MainWindow(QMainWindow):
             "Malware Scan": "🦠 Malware Scan: Run comprehensive malware scans.",
             "File Encryption": "🔒 File Encryption: Protect sensitive data with encryption.",
             "Privacy Settings": "🕵️‍♂️ Privacy Settings: Enhance your privacy settings.",
+            "System Health": "⚙️ System Health: Update and optimize your system.",
         }
 
         for page, description in pages.items():
@@ -74,15 +77,14 @@ class MainWindow(QMainWindow):
             "System Cleanup": self.create_feature_page(
                 "🧹 System Cleanup", "Free up space and improve system performance."
             ),
-            "Malware Scan": self.create_feature_page(
-                "🦠 Malware Scan", "Run comprehensive malware scans."
-            ),
+            "Malware Scan": self.create_malware_scan_page(),
             "File Encryption": self.create_feature_page(
                 "🔒 File Encryption", "Protect sensitive data with encryption."
             ),
             "Privacy Settings": self.create_feature_page(
                 "🕵️‍♂️ Privacy Settings", "Enhance your privacy settings."
             ),
+            "System Health": self.create_system_health_page(),
         }
         for page in self.pages.values():
             self.stack.addWidget(page)
@@ -139,7 +141,65 @@ class MainWindow(QMainWindow):
                 "Cyb3rOwl combines simplicity with advanced technology to ensure your device stays secure at all times."
             )
         )
-        layout.addWidget(self.create_cta_button("Start Scan"))
+        return self.create_scrollable_page(layout)
+
+    def create_malware_scan_page(self):
+        layout = QVBoxLayout()
+        layout.addWidget(self.create_title("🦠 Malware Scan"))
+        layout.addWidget(
+            self.create_description(
+                "Run a comprehensive malware scan to detect and remove threats from your system.\n\n"
+                "This feature will help ensure that your system remains secure from known and emerging malware."
+            )
+        )
+
+        # Create the "Start Scan" button at the bottom-left of the Malware Scan page
+        scan_btn = self.create_cta_button("Start Scan")
+        scan_btn.setStyleSheet(
+            "background-color: #36d2cf; color: white; padding: 10px; border-radius: 10px;"
+        )
+        scan_btn.setMinimumHeight(40)
+        scan_btn.setMaximumWidth(120)
+        scan_btn.clicked.connect(self.start_scan)
+
+        # Add to layout with bottom alignment
+        layout.addWidget(
+            scan_btn,
+            alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft,
+        )
+
+        return self.create_scrollable_page(layout)
+
+    def create_system_health_page(self):
+        layout = QVBoxLayout()
+        layout.addWidget(self.create_title("⚙️ System Health"))
+        layout.addWidget(
+            self.create_description(
+                "Keep your system in top condition by performing updates and optimizations.\n\n"
+                "Click below to update your system using the Windows Package Manager (winget)."
+            )
+        )
+
+        # Create the "Update" button at the bottom-left of the System Health page
+        update_btn = self.create_cta_button("Update")
+        update_btn.setStyleSheet(
+            "background-color: #36d2cf; color: white; padding: 10px; border-radius: 10px;"
+        )
+        update_btn.setMinimumHeight(40)
+        update_btn.setMaximumWidth(120)
+        update_btn.clicked.connect(self.update_system)
+
+        # Add to layout with bottom alignment
+        layout.addWidget(
+            update_btn,
+            alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft,
+        )
+
+        # Add terminal-like output area
+        self.terminal_output = QTextEdit()
+        self.terminal_output.setReadOnly(True)  # Make the terminal output read-only
+        layout.addWidget(self.terminal_output)
+
         return self.create_scrollable_page(layout)
 
     def create_feature_page(self, title_text, description_text):
@@ -197,6 +257,25 @@ class MainWindow(QMainWindow):
                 if btn_name == page_name
                 else self.button_style()
             )
+
+    def start_scan(self):
+        # Add the scan logic here
+        print("Scan started!")
+
+    def update_system(self):
+        self.terminal_output.append("Updating system using winget...\n")
+        process = QProcess(self)
+        process.start("winget", ["update"])
+        process.readyReadStandardOutput.connect(self.handle_output)
+        process.readyReadStandardError.connect(self.handle_error)
+
+    def handle_output(self):
+        output = self.sender().readAllStandardOutput().data().decode()
+        self.terminal_output.append(output)
+
+    def handle_error(self):
+        error = self.sender().readAllStandardError().data().decode()
+        self.terminal_output.append(error)
 
 
 if __name__ == "__main__":
