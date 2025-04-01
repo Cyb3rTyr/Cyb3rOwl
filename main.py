@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import os
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -13,6 +14,7 @@ from PySide6.QtWidgets import (
     QFrame,
     QSizePolicy,
     QTextEdit,
+    QMessageBox,
 )
 from PySide6.QtGui import QPixmap, QFont
 from PySide6.QtCore import Qt, QProcess
@@ -197,11 +199,24 @@ class MainWindow(QMainWindow):
         )
         update_btn.setMinimumHeight(40)
         update_btn.setMaximumWidth(120)
-        update_btn.clicked.connect(self.update_system)
+        update_btn.clicked.connect(self.check_terms_and_update)
 
-        # Add to layout with bottom alignment
+        # Create the "Upgrade" button near the Update button
+        upgrade_btn = self.create_cta_button("Upgrade")
+        upgrade_btn.setStyleSheet(
+            "background-color: #36d2cf; color: white; padding: 10px; border-radius: 10px;"
+        )
+        upgrade_btn.setMinimumHeight(40)
+        upgrade_btn.setMaximumWidth(120)
+        upgrade_btn.clicked.connect(self.upgrade_system)
+
+        # Add both buttons to layout with bottom-left alignment
         layout.addWidget(
             update_btn,
+            alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft,
+        )
+        layout.addWidget(
+            upgrade_btn,
             alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft,
         )
 
@@ -272,10 +287,61 @@ class MainWindow(QMainWindow):
         # Add the scan logic here
         print("Scan started!")
 
+    def check_terms_and_update(self):
+        # Check if terms have been accepted before
+        if not self.terms_accepted():
+            self.show_terms_dialog()
+        else:
+            self.update_system()
+
+    def show_terms_dialog(self):
+        # Show a dialog box asking the user to accept the terms
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle("Accept Terms and Conditions")
+        msg_box.setText(
+            "By updating your system using winget, you agree to the terms and conditions."
+        )
+        msg_box.setStandardButtons(
+            QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel
+        )
+        msg_box.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+        # Connect the accepted signal
+        if msg_box.exec() == QMessageBox.StandardButton.Ok:
+            self.store_terms_acceptance()
+            self.update_system()
+
+    def store_terms_acceptance(self):
+        # Store a file that indicates terms were accepted
+        with open("terms_accepted.txt", "w") as f:
+            f.write("Accepted")
+
+    def terms_accepted(self):
+        # Check if the terms acceptance file exists
+        return os.path.exists("terms_accepted.txt")
+
     def update_system(self):
         self.terminal_output.append("Updating system using winget...\n")
         process = QProcess(self)
         process.start("winget", ["update"])
+        process.readyReadStandardOutput.connect(self.handle_output)
+        process.readyReadStandardError.connect(self.handle_error)
+
+    def upgrade_system(self):
+        self.terminal_output.append("Running upgrade script...\n")
+
+        # Path to the upgrade script (ensure the path is correct)
+        script_path = (
+            "C:/path/to/your/upgrade_script.bat"  # Update with the correct path
+        )
+
+        # Start the process to run the batch script
+        process = QProcess(self)
+
+        # Ensure the script path is correct and escape spaces if needed
+        process.start(f"cmd.exe /c {script_path}")
+
+        # Connect the process to handle the output and error streams
         process.readyReadStandardOutput.connect(self.handle_output)
         process.readyReadStandardError.connect(self.handle_error)
 
