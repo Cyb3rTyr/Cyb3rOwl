@@ -10,17 +10,17 @@ from PySide6.QtWidgets import (
     QStackedWidget,
     QScrollArea,
     QFrame,
+    QSizePolicy,
 )
-from PySide6.QtGui import QPixmap, QFont, QPainter, QColor
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtGui import QPixmap, QFont
+from PySide6.QtCore import Qt
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Cyb3rOwl: Malware & Vulnerability Scanner")
-        self.setMinimumSize(1100, 600)
-        self.dark_mode = True  # Default mode
+        self.setMinimumSize(1200, 700)
         self.initUI()
 
     def initUI(self):
@@ -31,182 +31,121 @@ class MainWindow(QMainWindow):
         self.sidebar = QWidget()
         self.sidebar_layout = QVBoxLayout()
         self.sidebar_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self.sidebar.setFixedWidth(250)  # Ensure sufficient width for buttons
+        self.sidebar.setFixedWidth(270)
 
-        # Add the cyb3r.png image at the top of the sidebar
+        # Logo
         logo_image = QLabel()
-        logo_pixmap = QPixmap("cyb3r.png")
-
-        # Check if the image is loaded successfully
-        if not logo_pixmap.isNull():
-            # Scale the image proportionally to a larger size (keeping aspect ratio)
-            logo_pixmap = logo_pixmap.scaled(
-                120,
-                120,
-                Qt.AspectRatioMode.KeepAspectRatio,
-                Qt.TransformationMode.SmoothTransformation,
-            )
-            logo_image.setPixmap(logo_pixmap)
-            logo_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        else:
-            print("Error: Unable to load the image.")
-
+        logo_pixmap = QPixmap("cyb3r.png").scaled(
+            140,
+            140,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
+        )
+        logo_image.setPixmap(logo_pixmap)
+        logo_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.sidebar_layout.addWidget(logo_image)
 
-        # Page Selection Section
-        self.page_selection_section = QWidget()
-        self.page_selection_layout = QVBoxLayout()
-        self.page_selection_layout.setSpacing(5)  # Reduced space between buttons
-        self.page_selection_section.setLayout(self.page_selection_layout)
-        self.page_selection_section.setStyleSheet(self.page_selection_section_style())
-
-        # Sidebar Buttons (for page navigation)
+        # Navigation Buttons
         self.buttons = {}
-        pages = [
-            "Home",
-            "Malware Scan",
-            "Vulnerability Scan",
-            "System Health Check",
-            "Privacy Settings",
-        ]
-        for page in pages:
+        pages = {
+            "Home": "🏠 Home: Your dashboard for system security and optimization.",
+            "Malware Protection": "🦠 Malware Protection: Detect and remove malware in real-time.",
+            "System Cleanup": "🧹 System Cleanup: Free up space and improve system performance.",
+            "Malware Scan": "🦠 Malware Scan: Run comprehensive malware scans.",
+            "File Encryption": "🔒 File Encryption: Protect sensitive data with encryption.",
+            "Privacy Settings": "🕵️‍♂️ Privacy Settings: Enhance your privacy settings.",
+        }
+
+        for page, description in pages.items():
             btn = self.create_sidebar_button(page)
-            self.page_selection_layout.addWidget(btn)
+            self.sidebar_layout.addWidget(btn)
             self.buttons[page] = btn
 
-        self.sidebar_layout.addWidget(self.page_selection_section)
-
-        # Add stretch here so buttons stay at the bottom
         self.sidebar_layout.addStretch()
-
-        # Add the special "Update" and "Upgrade" buttons at the bottom of the sidebar
-        self.update_button = self.create_special_button(
-            "Update", "#36d2cf", smaller=True
-        )  # Smaller size
-        self.sidebar_layout.addWidget(self.update_button)
-
-        self.upgrade_button = self.create_special_button(
-            "Upgrade", "#36d2cf", smaller=True
-        )  # Smaller size
-        self.sidebar_layout.addWidget(self.upgrade_button)
-
         self.sidebar.setLayout(self.sidebar_layout)
 
-        # Main content area with the background and layout
+        # Main Content
         self.stack = QStackedWidget()
         self.pages = {
             "Home": self.create_home_page(),
-            "Malware Scan": self.create_coming_soon_page("🦠 Malware Scan"),
-            "Vulnerability Scan": self.create_coming_soon_page("🔍 Vulnerability Scan"),
-            "System Health Check": self.create_system_health_page(),
-            "Privacy Settings": self.create_privacy_page(),
+            "Malware Protection": self.create_feature_page(
+                "🦠 Malware Protection", "Detect and remove malware in real-time."
+            ),
+            "System Cleanup": self.create_feature_page(
+                "🧹 System Cleanup", "Free up space and improve system performance."
+            ),
+            "Malware Scan": self.create_feature_page(
+                "🦠 Malware Scan", "Run comprehensive malware scans."
+            ),
+            "File Encryption": self.create_feature_page(
+                "🔒 File Encryption", "Protect sensitive data with encryption."
+            ),
+            "Privacy Settings": self.create_feature_page(
+                "🕵️‍♂️ Privacy Settings", "Enhance your privacy settings."
+            ),
         }
         for page in self.pages.values():
             self.stack.addWidget(page)
 
-        # Add sidebar and main content area to the main layout
         content_layout = QHBoxLayout()
         content_layout.addWidget(self.sidebar)
 
-        # Create the separator and place it after the sidebar content
         separator = QFrame()
         separator.setFrameShape(QFrame.Shape.VLine)
         separator.setFrameShadow(QFrame.Shadow.Sunken)
-        separator.setLineWidth(2)  # Set line width to ensure it's visible
-        separator.setStyleSheet("background-color: #2a637a;")  # Dark teal for separator
-        separator.setFixedWidth(2)  # Ensure the width is fixed for the separator
+        separator.setStyleSheet("background-color: #2a637a;")
+        separator.setFixedWidth(2)
+        content_layout.addWidget(separator)
 
-        content_layout.addWidget(separator)  # Add the separator after sidebar
-
-        # Add main content area (stacked widget) to the layout
         content_layout.addWidget(self.stack, 4)
-
-        # Set the main layout for the central widget
         container = QWidget()
         container.setLayout(content_layout)
         self.setCentralWidget(container)
-
         self.navigate("Home")
 
-    def create_sidebar_button(self, page_name):
-        btn = QPushButton(page_name)
-        btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        btn.setIconSize(QSize(30, 30))
-        btn.setStyleSheet(self.button_style())
-        btn.setFont(self.get_bold_font())  # Make button text bold
-        btn.setMinimumHeight(50)  # Slightly reduced height for a better fit
-        btn.setMinimumWidth(220)  # Set width to ensure uniformity
-        btn.clicked.connect(lambda _, name=page_name: self.navigate(name))
-        return btn
-
-    def create_special_button(self, text, color, smaller=False):
+    def create_sidebar_button(self, text):
         btn = QPushButton(text)
-        btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        btn.setIconSize(QSize(30, 30))
-        btn.setStyleSheet(
-            f"background-color: {color}; color: white; padding: 12px; border-radius: 15px; border: 2px solid black;"
-        )
-        btn.setFont(self.get_bold_font())  # Make the special buttons bold
-        if smaller:
-            btn.setMinimumHeight(40)  # Smaller height
-            btn.setMinimumWidth(180)  # Smaller width
-        else:
-            btn.setMinimumHeight(50)  # Same height as regular buttons
-            btn.setMinimumWidth(220)  # Same width as regular buttons
+        btn.setStyleSheet(self.button_style())
+        btn.setFont(QFont("Segoe UI", 12, QFont.Weight.Bold))
+        btn.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        btn.setMinimumHeight(40)
+        btn.clicked.connect(lambda: self.navigate(text))
         return btn
-
-    def navigate(self, page_name):
-        index = list(self.pages.keys()).index(page_name)
-        self.stack.setCurrentIndex(index)
-        for btn_name, btn in self.buttons.items():
-            btn.setStyleSheet(
-                self.selected_button_style()
-                if btn_name == page_name
-                else self.button_style()
-            )
 
     def create_home_page(self):
         layout = QVBoxLayout()
-        title = QLabel("Cyb3rOwl: Malware & Vulnerability Scanner")
-        title.setObjectName("header")
-        title.setAlignment(Qt.AlignmentFlag.AlignLeft)  # Align title to the left
-        title.setFont(self.get_large_font())  # Larger font size for title
-        layout.addWidget(title)
-
-        description = QLabel(
-            "Welcome to Cyb3rOwl, your companion for scanning and protecting your system from malware and vulnerabilities."
+        layout.addWidget(
+            self.create_title("Welcome to Cyb3rOwl - Your Ultimate Security Companion")
         )
-        description.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        description.setFont(self.get_regular_font())  # Regular font for description
-        layout.addWidget(description)
-
+        layout.addWidget(
+            self.create_description(
+                "🚀 Protect. Optimize. Recover.\n\n"
+                "Cyb3rOwl is your all-in-one security toolkit designed to keep your device safe, optimized, and secure. "
+                "Whether you're protecting your system from malware, managing files, or ensuring privacy, Cyb3rOwl has you covered.\n\n"
+                "Key Features:\n"
+                "🦠 Malware Protection - Detect and remove malware in real-time.\n"
+                "🧹 System Cleanup - Free up space and improve performance.\n"
+                "🦠 Malware Scan - Run comprehensive malware scans.\n"
+                "🔒 File Encryption - Protect sensitive data.\n"
+                "🕵️‍♂️ Privacy Settings - Clean browser history and manage privacy.\n\n"
+                "🌟 Get Started:\n"
+                "Run a Quick Malware Scan to check for potential threats.\n"
+                "Clean up Junk Files to optimize system performance.\n"
+                "Encrypt Files to protect sensitive data.\n"
+                "Manage Privacy Settings to enhance your online privacy.\n\n"
+                "⚙️ Settings:\n"
+                "Personalize Cyb3rOwl with automatic scans, privacy controls, and encryption preferences.\n\n"
+                "🔐 Your Security, Our Priority\n"
+                "Cyb3rOwl combines simplicity with advanced technology to ensure your device stays secure at all times."
+            )
+        )
+        layout.addWidget(self.create_cta_button("Start Scan"))
         return self.create_scrollable_page(layout)
 
-    def create_system_health_page(self):
+    def create_feature_page(self, title_text, description_text):
         layout = QVBoxLayout()
-        title = QLabel("💻 System Health Check")
-        title.setObjectName("header")
-        title.setAlignment(Qt.AlignmentFlag.AlignLeft)  # Align title to the left
-        title.setFont(self.get_large_font())
-        layout.addWidget(title)
-        return self.create_scrollable_page(layout)
-
-    def create_privacy_page(self):
-        layout = QVBoxLayout()
-        title = QLabel("🔒 Privacy Settings")
-        title.setObjectName("header")
-        title.setAlignment(Qt.AlignmentFlag.AlignLeft)  # Align title to the left
-        title.setFont(self.get_large_font())
-        layout.addWidget(title)
-        return self.create_scrollable_page(layout)
-
-    def create_coming_soon_page(self, title_text):
-        layout = QVBoxLayout()
-        title = QLabel(title_text)
-        title.setObjectName("header")
-        title.setAlignment(Qt.AlignmentFlag.AlignLeft)  # Align title to the left
-        title.setFont(self.get_large_font())
-        layout.addWidget(title)
+        layout.addWidget(self.create_title(title_text))
+        layout.addWidget(self.create_description(description_text))
         return self.create_scrollable_page(layout)
 
     def create_scrollable_page(self, layout):
@@ -215,10 +154,29 @@ class MainWindow(QMainWindow):
         scroll_widget = QWidget()
         scroll_widget.setLayout(layout)
         scroll_area.setWidget(scroll_widget)
-        container = QWidget()
-        container.setLayout(QVBoxLayout())
-        container.layout().addWidget(scroll_area)
-        return container
+        return scroll_area
+
+    def create_title(self, text):
+        title = QLabel(text)
+        title.setFont(QFont("Segoe UI", 20, QFont.Weight.Bold))
+        title.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        return title
+
+    def create_description(self, text):
+        desc = QLabel(text)
+        desc.setFont(QFont("Segoe UI", 14))
+        desc.setWordWrap(True)
+        desc.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        return desc
+
+    def create_cta_button(self, text):
+        btn = QPushButton(text)
+        btn.setStyleSheet(
+            "background-color: #36d2cf; color: white; padding: 15px; border-radius: 10px;"
+        )
+        btn.setFont(QFont("Segoe UI", 14, QFont.Weight.Bold))
+        btn.setMinimumHeight(50)
+        return btn
 
     def button_style(self):
         return "background-color: #0f2334; color: white; padding: 12px; border-radius: 15px;"
@@ -226,43 +184,19 @@ class MainWindow(QMainWindow):
     def selected_button_style(self):
         return "background-color: #2a637a; color: #36d2cf; padding: 12px; border-radius: 15px;"
 
-    def page_selection_section_style(self):
-        return """
-        background: linear-gradient(to bottom, #0f2334, #2a637a);  /* Gradient from dark blue to medium teal */
-        border-radius: 10px;
-        padding: 15px;
-        margin: 10px;
-        """
-
     def app_style(self):
-        if self.dark_mode:
-            return "* { background-color: #0f2334; color: #c5e2df; font-family: 'Segoe UI'; }"
-        else:
-            return "* { background-color: #FFFFFF; color: #000000; font-family: 'Segoe UI'; }"
-
-    def get_bold_font(self):
-        return QFont("Segoe UI", 12, QFont.Weight.Bold)
-
-    def get_large_font(self):
-        return QFont("Segoe UI", 18, QFont.Weight.Bold)
-
-    def get_regular_font(self):
-        return QFont("Segoe UI", 14, QFont.Weight.Normal)
-
-
-class BackgroundImage(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        pixmap = QPixmap("cyb3r.png")
-        pixmap = pixmap.scaled(
-            self.size(), Qt.AspectRatioMode.KeepAspectRatioByExpanding
+        return (
+            "* { background-color: #0f2334; color: #c5e2df; font-family: 'Segoe UI'; }"
         )
-        painter.setOpacity(0.2)  # Set 80% transparency
-        painter.drawPixmap(0, 0, pixmap)
+
+    def navigate(self, page_name):
+        self.stack.setCurrentWidget(self.pages[page_name])
+        for btn_name, btn in self.buttons.items():
+            btn.setStyleSheet(
+                self.selected_button_style()
+                if btn_name == page_name
+                else self.button_style()
+            )
 
 
 if __name__ == "__main__":
