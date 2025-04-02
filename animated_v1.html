@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Animated Mascot</title>
+    <style>
+        /* Basic styling for the page */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: transparent;
+            /* Transparent background */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Style for the mascot (ball) */
+        #mascot {
+            width: 50px;
+            /* Smaller size */
+            height: 50px;
+            /* Smaller size */
+            background-color: #4CAF50;
+            /* Green ball */
+            border-radius: 50%;
+            /* Make it round */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Center the ball */
+        }
+
+        /* Animation for the mascot */
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -60%) scale(1.2);
+            }
+        }
+
+        #mascot {
+            animation: bounce 1s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mascot as a simple div element -->
+    <div id="mascot"></div>
+
+    <script>
+        // JavaScript to add interactions (optional)
+        const mascot = document.getElementById('mascot');
+
+        mascot.addEventListener('click', function () {
+            alert("You clicked on the mascot!");
+        });
+    </script>
+</body>
+
+</html>
