@@ -1,23 +1,9 @@
 import sys
 import subprocess
 import os
-from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QWidget,
-    QVBoxLayout,
-    QPushButton,
-    QLabel,
-    QHBoxLayout,
-    QStackedWidget,
-    QScrollArea,
-    QFrame,
-    QSizePolicy,
-    QTextEdit,
-    QMessageBox,
-)
+from PySide6.QtWidgets import *
 from PySide6.QtGui import QPixmap, QFont
-from PySide6.QtCore import Qt, QProcess
+from PySide6.QtCore import Qt, QProcess, QTimer
 
 
 class MainWindow(QMainWindow):
@@ -86,7 +72,7 @@ class MainWindow(QMainWindow):
             ),
             "Malware Scan": self.create_malware_scan_page(),
             "File Encryption": self.create_feature_page(
-                "🔒 File Encryption", "Protect sensitive data with encryption."
+                "🔒 File Encryption", "Protect sensitive data."
             ),
             "Privacy Settings": self.create_feature_page(
                 "🕵️‍♂️ Privacy Settings", "Enhance your privacy settings."
@@ -180,7 +166,28 @@ class MainWindow(QMainWindow):
             alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignLeft,
         )
 
+        # Add progress bar to track scan progress
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setRange(0, 100)  # Range from 0 to 100
+        self.progress_bar.setValue(0)
+        layout.addWidget(self.progress_bar)
+
         return self.create_scrollable_page(layout)
+
+    def start_scan(self):
+        # Simulating scan progress
+        self.progress_bar.setValue(0)  # Reset progress bar
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.simulate_scan)
+        self.timer.start(1000)  # Update every second
+
+    def simulate_scan(self):
+        current_value = self.progress_bar.value()
+        if current_value < 100:
+            self.progress_bar.setValue(current_value + 10)
+        else:
+            self.timer.stop()  # Stop the timer when scan is done
+            self.terminal_output.append("Scan completed!\n")
 
     def create_system_health_page(self):
         layout = QVBoxLayout()
@@ -283,19 +290,13 @@ class MainWindow(QMainWindow):
                 else self.button_style()
             )
 
-    def start_scan(self):
-        # Add the scan logic here
-        print("Scan started!")
-
     def check_terms_and_update(self):
-        # Check if terms have been accepted before
         if not self.terms_accepted():
             self.show_terms_dialog()
         else:
             self.update_system()
 
     def show_terms_dialog(self):
-        # Show a dialog box asking the user to accept the terms
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle("Accept Terms and Conditions")
         msg_box.setText(
@@ -306,22 +307,31 @@ class MainWindow(QMainWindow):
         )
         msg_box.setDefaultButton(QMessageBox.StandardButton.Ok)
 
-        # Connect the accepted signal
         if msg_box.exec() == QMessageBox.StandardButton.Ok:
             self.store_terms_acceptance()
             self.update_system()
 
     def store_terms_acceptance(self):
-        # Store a file that indicates terms were accepted
         with open("terms_accepted.txt", "w") as f:
             f.write("Accepted")
 
     def terms_accepted(self):
-        # Check if the terms acceptance file exists
         return os.path.exists("terms_accepted.txt")
 
     def update_system(self):
         self.terminal_output.append("Updating system using winget...\n")
+        self.progress_bar.setValue(0)  # Reset progress bar
+        self.progress_bar.setMaximum(100)  # Set the maximum value
+        self.remaining_time_label = QLabel("Time remaining: estimating...")
+        self.terminal_output.append(
+            self.remaining_time_label.text()
+        )  # Display initial label
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(
+            self.update_progress
+        )  # This will update the progress
+        self.timer.start(1000)  # Update every second (adjustable)
+
         process = QProcess(self)
         process.start("winget", ["update"])
         process.readyReadStandardOutput.connect(self.handle_output)
@@ -329,19 +339,23 @@ class MainWindow(QMainWindow):
 
     def upgrade_system(self):
         self.terminal_output.append("Running upgrade script...\n")
+        self.progress_bar.setValue(0)  # Reset progress bar
+        self.progress_bar.setMaximum(100)  # Set the maximum value
+        self.remaining_time_label = QLabel("Time remaining: estimating...")
+        self.terminal_output.append(
+            self.remaining_time_label.text()
+        )  # Display initial label
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(
+            self.update_progress
+        )  # This will update the progress
+        self.timer.start(1000)  # Update every second (adjustable)
 
-        # Path to the upgrade script (ensure the path is correct)
-        script_path = (
-            "C:/path/to/your/upgrade_script.bat"  # Update with the correct path
+        script_path = os.path.join(
+            os.path.dirname(__file__), "Scripts", "upgrade_script.bat"
         )
-
-        # Start the process to run the batch script
         process = QProcess(self)
-
-        # Ensure the script path is correct and escape spaces if needed
-        process.start(f"cmd.exe /c {script_path}")
-
-        # Connect the process to handle the output and error streams
+        process.start("cmd.exe", ["/K", script_path])
         process.readyReadStandardOutput.connect(self.handle_output)
         process.readyReadStandardError.connect(self.handle_error)
 
@@ -352,6 +366,21 @@ class MainWindow(QMainWindow):
     def handle_error(self):
         error = self.sender().readAllStandardError().data().decode()
         self.terminal_output.append(error)
+
+    def update_progress(self):
+        current_value = self.progress_bar.value()
+        if current_value < 100:
+            self.progress_bar.setValue(current_value + 5)  # Adjust increment if needed
+            # Estimate remaining time, here it's a basic example
+            remaining_time = (
+                100 - current_value
+            ) * 0.5  # Estimating time based on progress
+            self.remaining_time_label.setText(
+                f"Time remaining: {remaining_time:.1f} seconds"
+            )
+        else:
+            self.timer.stop()  # Stop the timer once completed
+            self.remaining_time_label.setText("Completed!")
 
 
 if __name__ == "__main__":
