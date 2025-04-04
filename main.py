@@ -4,12 +4,13 @@ import os
 from PySide6.QtWidgets import *
 from PySide6.QtGui import QPixmap, QFont
 from PySide6.QtCore import Qt, QProcess, QTimer
+import pyfiglet
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Cyb3rOwl: Malware & Vulnerability Scanner")
+        self.setWindowTitle("Nox: Malware & Vulnerability Scanner")
         self.setMinimumSize(1200, 700)
         self.initUI()
 
@@ -115,13 +116,13 @@ class MainWindow(QMainWindow):
     def create_home_page(self):
         layout = QVBoxLayout()
         layout.addWidget(
-            self.create_title("Welcome to Cyb3rOwl - Your Ultimate Security Companion")
+            self.create_title("Welcome to Nox - Your Ultimate Security Companion")
         )
         layout.addWidget(
             self.create_description(
                 "🚀 Protect. Optimize. Recover.\n\n"
-                "Cyb3rOwl is your all-in-one security toolkit designed to keep your device safe, optimized, and secure. "
-                "Whether you're protecting your system from malware, managing files, or ensuring privacy, Cyb3rOwl has you covered.\n\n"
+                "Nox is your all-in-one security toolkit designed to keep your device safe, optimized, and secure. "
+                "Whether you're protecting your system from malware, managing files, or ensuring privacy, Nox has you covered.\n\n"
                 "Key Features:\n"
                 "🦠 Malware Protection - Detect and remove malware in real-time.\n"
                 "🧹 System Cleanup - Free up space and improve performance.\n"
@@ -134,9 +135,9 @@ class MainWindow(QMainWindow):
                 "Encrypt Files to protect sensitive data.\n"
                 "Manage Privacy Settings to enhance your online privacy.\n\n"
                 "⚙️ Settings:\n"
-                "Personalize Cyb3rOwl with automatic scans, privacy controls, and encryption preferences.\n\n"
+                "Personalize Nox with automatic scans, privacy controls, and encryption preferences.\n\n"
                 "🔐 Your Security, Our Priority\n"
-                "Cyb3rOwl combines simplicity with advanced technology to ensure your device stays secure at all times."
+                "Nox combines simplicity with advanced technology to ensure your device stays secure at all times."
             )
         )
         return self.create_scrollable_page(layout)
@@ -319,45 +320,74 @@ class MainWindow(QMainWindow):
         return os.path.exists("terms_accepted.txt")
 
     def update_system(self):
-        self.terminal_output.append("Updating system using winget...\n")
-        self.progress_bar.setValue(0)  # Reset progress bar
-        self.progress_bar.setMaximum(100)  # Set the maximum value
-        self.remaining_time_label = QLabel("Time remaining: estimating...")
-        self.terminal_output.append(
-            self.remaining_time_label.text()
-        )  # Display initial label
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(
-            self.update_progress
-        )  # This will update the progress
-        self.timer.start(1000)  # Update every second (adjustable)
+        self.terminal_output.append("Running update script...\n")
 
+        # Change background color to transparent yellow while running the update
+        self.terminal_output.setStyleSheet(
+            "background-color: rgba(255, 255, 0, 128); color: black;"
+        )
+
+        script_path = os.path.join(
+            os.path.dirname(__file__), "Scripts", "update_script.bat"
+        )
         process = QProcess(self)
-        process.start("winget", ["update"])
+        process.start("cmd.exe", ["/K", script_path])
+
+        # Connect the finished signal to the on_process_finished method
+        process.finished.connect(
+            lambda exitCode, exitStatus: self.on_process_finished(
+                "update", exitCode, exitStatus
+            )
+        )
+
         process.readyReadStandardOutput.connect(self.handle_output)
         process.readyReadStandardError.connect(self.handle_error)
 
     def upgrade_system(self):
         self.terminal_output.append("Running upgrade script...\n")
-        self.progress_bar.setValue(0)  # Reset progress bar
-        self.progress_bar.setMaximum(100)  # Set the maximum value
-        self.remaining_time_label = QLabel("Time remaining: estimating...")
-        self.terminal_output.append(
-            self.remaining_time_label.text()
-        )  # Display initial label
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(
-            self.update_progress
-        )  # This will update the progress
-        self.timer.start(1000)  # Update every second (adjustable)
+
+        # Change background color to transparent yellow while running the upgrade
+        self.terminal_output.setStyleSheet(
+            "background-color: rgba(255, 255, 0, 128); color: black;"
+        )
 
         script_path = os.path.join(
             os.path.dirname(__file__), "Scripts", "upgrade_script.bat"
         )
         process = QProcess(self)
         process.start("cmd.exe", ["/K", script_path])
+
+        # Connect the finished signal to the on_process_finished method
+        process.finished.connect(
+            lambda exitCode, exitStatus: self.on_process_finished(
+                "upgrade", exitCode, exitStatus
+            )
+        )
+
         process.readyReadStandardOutput.connect(self.handle_output)
         process.readyReadStandardError.connect(self.handle_error)
+
+    def on_process_finished(self, process_type, exitCode, exitStatus):
+        # Using QTimer.singleShot to ensure UI updates happen on the main thread
+        QTimer.singleShot(
+            0, lambda: self.update_terminal_on_finish(process_type, exitCode)
+        )
+
+    def update_terminal_on_finish(self, process_type, exitCode):
+        if exitCode == 0:
+            self.terminal_output.append(
+                f"{process_type.capitalize()} script finished successfully!\n"
+            )
+            self.terminal_output.setStyleSheet(
+                "background-color: rgba(0, 255, 0, 128); color: black;"  # Green background for success
+            )
+        else:
+            self.terminal_output.append(
+                f"{process_type.capitalize()} script failed with exit code {exitCode}.\n"
+            )
+            self.terminal_output.setStyleSheet(
+                "background-color: rgba(255, 0, 0, 128); color: black;"  # Red background for failure
+            )
 
     def handle_output(self):
         output = self.sender().readAllStandardOutput().data().decode()
@@ -366,21 +396,6 @@ class MainWindow(QMainWindow):
     def handle_error(self):
         error = self.sender().readAllStandardError().data().decode()
         self.terminal_output.append(error)
-
-    def update_progress(self):
-        current_value = self.progress_bar.value()
-        if current_value < 100:
-            self.progress_bar.setValue(current_value + 5)  # Adjust increment if needed
-            # Estimate remaining time, here it's a basic example
-            remaining_time = (
-                100 - current_value
-            ) * 0.5  # Estimating time based on progress
-            self.remaining_time_label.setText(
-                f"Time remaining: {remaining_time:.1f} seconds"
-            )
-        else:
-            self.timer.stop()  # Stop the timer once completed
-            self.remaining_time_label.setText("Completed!")
 
 
 if __name__ == "__main__":
